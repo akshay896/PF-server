@@ -52,3 +52,30 @@ exports.logicController = async (req, res) => {
     console.log(err);
   }
 };
+
+// edit profile
+exports.editProfileController = async (req, res) => {
+  console.log("Inside editProfileController");
+  const { username, email, password, github, linkedin, profilePic } = req.body;
+  const uploadImg = req.file ? req.file.filename : profilePic;
+  const userId = req.payload;
+
+  try {
+    const updatedUser = await users.findByIdAndUpdate(
+      { _id: userId },
+      {
+        username,
+        email,
+        password,
+        github,
+        linkedin,
+        profilePic: uploadImg,
+      },
+      { new: true }
+    );
+    await updatedUser.save();
+    res.status(200).json(updatedUser);
+  } catch (err) {
+    res.status(401).json(err);
+  }
+};

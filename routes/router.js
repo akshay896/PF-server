@@ -36,4 +36,18 @@ router.get(
   projectController.getuserProjectsController
 );
 
+// edit project
+router.put(
+  "/project/:pid/edit",
+  jwtMiddleware,
+  multerMiddleware.single("projectImg"),
+  projectController.editProjectController
+);
+
+// remove project
+router.delete("/project/:pid/remove",jwtMiddleware,projectController.removeProjectController)
+
+// edit user
+router.put('/user/edit',jwtMiddleware,multerMiddleware.single("profilePic"),userController.editProfileController)
+
 module.exports = router;
